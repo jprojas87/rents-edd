@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Propiedades - CRUD EDD{% endblock %}
+
+{% block content %}
+<h2>Listado de propiedades</h2>
+
+{% if properties %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Ciudad</th>
+                <th>País</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prop in properties %}
+            <tr>
+                <td>{{ prop.id }}</td>
+                <td>{{ prop.title }}</td>
+                <td>{{ prop.city }}</td>
+                <td>{{ prop.country }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay propiedades registradas.</p>
+{% endif %}
+
+<p>Recuerda que el CRUD completo está disponible vía API en <a href="/docs">/docs</a>.</p>
+{% endblock %}

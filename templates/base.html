@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CRUD EDD{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<header>
+    <h1>CRUD Estructuras de Datos - Reseñas de Viviendas</h1>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/properties">Propiedades</a>
+    </nav>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>Proyecto académico - Estructuras de Datos</p>
+</footer>
+</body>
+</html>

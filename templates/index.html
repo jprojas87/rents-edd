@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - CRUD EDD{% endblock %}
+
+{% block content %}
+<h2>Bienvenido</h2>
+<p>Este es un mini proyecto que usa estructuras de datos manuales
+para almacenar propiedades, reseñas, comentarios y favoritos.</p>
+
+<h3>Propiedades actuales</h3>
+{% if properties %}
+    <ul>
+        {% for prop in properties %}
+            <li>
+                <strong>{{ prop.title }}</strong>
+                - {{ prop.city }}, {{ prop.country }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay propiedades registradas aún.</p>
+{% endif %}
+
+<p>Puedes interactuar con la API en <a href="/docs">/docs</a>.</p>
+{% endblock %}
