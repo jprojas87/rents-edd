@@ -19,8 +19,8 @@ class PropertyRepository:
         self._table = ST()
         self._next_id = 1
 
-    def create(self, title: str, country: str, city: str) -> Property:
-        prop = Property(id=self._next_id, title=title, country=country, city=city)
+    def create(self, address: str, body: str, rating: int) -> Property:
+        prop = Property(id=self._next_id, address=address, body=body, rating=rating)
         self._table.put(self._next_id, prop)
         self._next_id += 1
         return prop
@@ -28,13 +28,13 @@ class PropertyRepository:
     def get(self, property_id: int) -> Optional[Property]:
         return self._table.get(property_id)
 
-    def update(self, property_id: int, title: str, country: str, city: str) -> Optional[Property]:
+    def update(self, property_id: int, address: str, body: str, rating: int) -> Optional[Property]:
         prop = self.get(property_id)
         if prop is None:
             return None
-        prop.title = title
-        prop.country = country
-        prop.city = city
+        prop.address = address
+        prop.body = body
+        prop.rating = rating
         self._table.put(property_id, prop)
         return prop
 

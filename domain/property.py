@@ -9,9 +9,9 @@ from datastructures.DoubleLinkedList import DoubleLinkedList  # Ajusta si tu nom
 @dataclass
 class Property:
     id: int
-    title: str
-    country: str
-    city: str
+    address: str
+    body: str
+    rating: int
     reviews: DoubleLinkedList = field(default_factory=DoubleLinkedList)
 
     def add_review(self, review: "Review") -> None:

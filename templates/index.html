@@ -1,30 +1,36 @@
 {% extends "base.html" %}
 
-{% block title %}Inicio - CRUD EDD{% endblock %}
+{% block title %}Inicio - RentView{% endblock %}
 
 {% block content %}
-<h2>Bienvenido</h2>
-<p>Este es un mini proyecto que usa estructuras de datos manuales
-para almacenar propiedades, reseñas, comentarios y favoritos.</p>
+<section class="hero">
+    <div class="hero-icon">🏠</div>
+    <h2>Encuentra y guarda tus alojamientos con RentView</h2>
+    <p>Gestiona propiedades, reseñas y comentarios desde una interfaz limpia y rápida.</p>
+    <div class="cta">
+        <a class="button" href="/properties/new">Agregar propiedad</a>
+        <a class="button secondary" href="/favorites">Mis favoritos</a>
+    </div>
+</section>
 
-<h3>Propiedades actuales</h3>
-{% if properties %}
-    <ul>
-        {% for prop in properties %}
-            <li>
-                <strong><a href="/properties/{{ prop.id }}">{{ prop.title }}</a></strong>
-                - {{ prop.city }}, {{ prop.country }}
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay propiedades registradas aún.</p>
-{% endif %}
-
-<div class="cta">
-    <a class="button" href="/properties/new">Crear propiedad</a>
-    <a class="button secondary" href="/favorites">Ver favoritos</a>
-</div>
-
-<p>Puedes interactuar con la API en <a href="/docs">/docs</a>.</p>
+<section class="card">
+    <div class="card-header">
+        <h3>Propiedades recientes</h3>
+    </div>
+    {% if properties %}
+        <ul class="list">
+            {% for prop in properties %}
+                <li class="list-item">
+                    <div>
+                        <strong><a href="/properties/{{ prop.id }}">{{ prop.address }}</a></strong>
+                        <div class="muted">Rating: {{ prop.rating }}</div>
+                    </div>
+                    <a class="text-link" href="/properties/{{ prop.id }}">Ver detalle</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="muted">Aún no hay propiedades. Empieza creando la primera.</p>
+    {% endif %}
+</section>
 {% endblock %}

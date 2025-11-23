@@ -3,48 +3,54 @@
 {% block title %}Reseña {{ review.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ review.title }}</h2>
-<p><strong>Rating:</strong> {{ review.rating }}</p>
-<p>{{ review.body }}</p>
+<section class="card" style="margin-bottom:1.5rem;">
+    <h2>{{ review.title }}</h2>
+    <div class="muted">Rating: {{ review.rating }}</div>
+    <p>{{ review.body }}</p>
+    {% if property %}
+    <p class="muted">Propiedad: <a class="text-link" href="/properties/{{ property.id }}">{{ property.address }}</a></p>
+    {% endif %}
+    <div style="margin: 1rem 0; display:flex; gap:0.5rem; flex-wrap: wrap;">
+        <a class="button" href="/reviews/{{ review.id }}/edit">Editar</a>
+        <form action="/reviews/{{ review.id }}/delete" method="post" style="display:inline;">
+            <button type="submit" onclick="return confirm('Eliminar reseña?');">Eliminar</button>
+        </form>
+    </div>
+</section>
 
-{% if property %}
-<p>Propiedad: <a href="/properties/{{ property.id }}">{{ property.title }}</a></p>
-{% endif %}
+<section class="card" style="margin-bottom:1.5rem;">
+    <div class="card-header">
+        <h3>Comentarios</h3>
+    </div>
+    {% if comments %}
+        <ul class="list">
+        {% for comment in comments %}
+            <li class="list-item">
+                <div>{{ comment.body }}</div>
+                <div>
+                    <a class="text-link" href="/comments/{{ comment.id }}/edit">Editar</a>
+                    <form action="/comments/{{ comment.id }}/delete" method="post" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Eliminar comentario?');">Eliminar</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p class="muted">No hay comentarios todavía.</p>
+    {% endif %}
+</section>
 
-<div style="margin: 1rem 0;">
-    <a class="button" href="/reviews/{{ review.id }}/edit">Editar</a>
-    <form action="/reviews/{{ review.id }}/delete" method="post" style="display:inline;">
-        <button type="submit" onclick="return confirm('Eliminar reseña?');">Eliminar</button>
+<section class="card">
+    <h3>Agregar comentario</h3>
+    <form action="/reviews/{{ review.id }}/comments/new" method="post">
+        <label for="body">Comentario</label><br>
+        <textarea id="body" name="body" rows="3" required></textarea><br><br>
+        <button type="submit">Publicar comentario</button>
     </form>
-</div>
-
-<h3>Comentarios</h3>
-{% if comments %}
-    <ul>
-    {% for comment in comments %}
-        <li>
-            {{ comment.body }}
-            <div>
-                <a href="/comments/{{ comment.id }}/edit">Editar</a>
-                <form action="/comments/{{ comment.id }}/delete" method="post" style="display:inline;">
-                    <button type="submit" onclick="return confirm('Eliminar comentario?');">Eliminar</button>
-                </form>
-            </div>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay comentarios todavía.</p>
-{% endif %}
-
-<h3>Agregar comentario</h3>
-<form action="/reviews/{{ review.id }}/comments/new" method="post">
-    <label for="body">Comentario</label><br>
-    <textarea id="body" name="body" rows="3" required></textarea><br><br>
-    <button type="submit">Publicar comentario</button>
-</form>
+</section>
 
 {% if property %}
-<p><a href="/properties/{{ property.id }}">Volver a la propiedad</a></p>
+<p style="margin-top:1rem;"><a class="text-link" href="/properties/{{ property.id }}">Volver a la propiedad</a></p>
 {% endif %}
 {% endblock %}

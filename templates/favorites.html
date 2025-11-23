@@ -5,36 +5,43 @@
 {% block content %}
 <h2>Propiedades favoritas</h2>
 
-{% if favorites %}
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Título</th>
-                <th>Ciudad</th>
-                <th>País</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for prop in favorites %}
-            <tr>
-                <td>{{ prop.id }}</td>
-                <td><a href="/properties/{{ prop.id }}">{{ prop.title }}</a></td>
-                <td>{{ prop.city }}</td>
-                <td>{{ prop.country }}</td>
-                <td>
-                    <form action="/favorites/{{ prop.id }}/delete" method="post" style="display:inline;">
-                        <button type="submit">Quitar</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>No has guardado propiedades como favoritas.</p>
-{% endif %}
+<div class="card">
+    {% if favorites %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Dirección</th>
+                    <th>Rating</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for prop in favorites %}
+                <tr>
+                    <td>{{ prop.id }}</td>
+                    <td><a href="/properties/{{ prop.id }}">{{ prop.address }}</a></td>
+                    <td>{{ prop.rating }}</td>
+                    <td>
+                        <form action="/favorites/{{ prop.id }}/delete" method="post" style="display:inline;">
+                            <button type="submit">Quitar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <section class="hero">
+            <div class="hero-icon">🔖</div>
+            <h2>Tu lista de favoritos está vacía</h2>
+            <p>Parece que aún no has guardado ninguna propiedad. Explora y guarda tus lugares favoritos para verlos aquí.</p>
+            <div class="cta">
+                <a class="button" href="/properties">Explorar propiedades</a>
+            </div>
+        </section>
+    {% endif %}
+</div>
 
-<p><a href="/properties">Volver a propiedades</a></p>
+<p style="margin-top:1rem;"><a class="text-link" href="/properties">Volver a propiedades</a></p>
 {% endblock %}

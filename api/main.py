@@ -14,7 +14,7 @@ from domain.property import Property
 from domain.review import Review
 from domain.comment import Comment
 
-app = FastAPI(title="CRUD EDD - Housing Reviews")
+app = FastAPI(title="RentView - Housing Reviews")
 
 # Static files (CSS) y templates (HTML)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -26,15 +26,15 @@ templates = Jinja2Templates(directory="templates")
 # =========================
 
 class PropertyCreate(BaseModel):
-    title: str
-    country: str
-    city: str
+    address: str
+    body: str
+    rating: int
 
 
 class PropertyUpdate(BaseModel):
-    title: str
-    country: str
-    city: str
+    address: str
+    body: str
+    rating: int
 
 
 class ReviewCreate(BaseModel):
@@ -64,9 +64,9 @@ class CommentUpdate(BaseModel):
 def serialize_property(prop: Property) -> dict:
     return {
         "id": prop.id,
-        "title": prop.title,
-        "country": prop.country,
-        "city": prop.city,
+        "address": prop.address,
+        "body": prop.body,
+        "rating": prop.rating,
     }
 
 
@@ -118,9 +118,9 @@ async def new_property_form(request: Request):
             "request": request,
             "form_action": "/properties/new",
             "form_method": "post",
-            "title": "",
-            "country": "",
-            "city": "",
+            "address": "",
+            "body": "",
+            "rating": 4,
             "heading": "Crear propiedad",
             "submit_label": "Crear",
         },
@@ -129,11 +129,11 @@ async def new_property_form(request: Request):
 
 @app.post("/properties/new")
 async def create_property_html(
-    title: str = Form(...),
-    country: str = Form(...),
-    city: str = Form(...),
+    address: str = Form(...),
+    body: str = Form(...),
+    rating: int = Form(...),
 ):
-    prop = property_service.create_property(title, country, city)
+    prop = property_service.create_property(address, body, rating)
     return RedirectResponse(
         url=f"/properties/{prop.id}", status_code=status.HTTP_303_SEE_OTHER
     )
@@ -169,9 +169,9 @@ async def edit_property_form(request: Request, property_id: int):
             "request": request,
             "form_action": f"/properties/{property_id}/edit",
             "form_method": "post",
-            "title": prop.title,
-            "country": prop.country,
-            "city": prop.city,
+            "address": prop.address,
+            "body": prop.body,
+            "rating": prop.rating,
             "heading": "Editar propiedad",
             "submit_label": "Actualizar",
         },
@@ -181,11 +181,11 @@ async def edit_property_form(request: Request, property_id: int):
 @app.post("/properties/{property_id}/edit")
 async def update_property_html(
     property_id: int,
-    title: str = Form(...),
-    country: str = Form(...),
-    city: str = Form(...),
+    address: str = Form(...),
+    body: str = Form(...),
+    rating: int = Form(...),
 ):
-    prop = property_service.update_property(property_id, title, country, city)
+    prop = property_service.update_property(property_id, address, body, rating)
     if prop is None:
         raise HTTPException(status_code=404, detail="Property not found")
     return RedirectResponse(
@@ -359,9 +359,9 @@ async def remove_favorite_html(property_id: int):
 @app.post("/api/properties", response_model=dict)
 async def create_property(payload: PropertyCreate):
     prop = property_service.create_property(
-        title=payload.title,
-        country=payload.country,
-        city=payload.city,
+        address=payload.address,
+        body=payload.body,
+        rating=payload.rating,
     )
     return serialize_property(prop)
 
@@ -383,7 +383,7 @@ async def get_property(property_id: int):
 @app.put("/api/properties/{property_id}", response_model=dict)
 async def update_property(property_id: int, payload: PropertyUpdate):
     prop = property_service.update_property(
-        property_id, payload.title, payload.country, payload.city
+        property_id, payload.address, payload.body, payload.rating
     )
     if prop is None:
         raise HTTPException(status_code=404, detail="Property not found")

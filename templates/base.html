@@ -2,26 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}CRUD EDD{% endblock %}</title>
+<title>{% block title %}RentView{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-<header>
-    <h1>CRUD Estructuras de Datos - Reseñas de Viviendas</h1>
+<header class="topbar">
+    <div class="brand">
+        <span class="brand-icon">🏡</span>
+        <span class="brand-name">RentView</span>
+    </div>
     <nav>
         <a href="/">Inicio</a>
         <a href="/properties">Propiedades</a>
-        <a href="/properties/new">Nueva propiedad</a>
         <a href="/favorites">Favoritos</a>
     </nav>
 </header>
 
-<main>
+<main class="page">
     {% block content %}{% endblock %}
 </main>
 
 <footer>
-    <p>Proyecto académico - Estructuras de Datos</p>
+    <p>RentView · Explora, reseña y guarda tus lugares favoritos</p>
 </footer>
 </body>
 </html>
