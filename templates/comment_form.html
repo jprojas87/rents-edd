@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Comentario - Editar{% endblock %}
+
+{% block content %}
+<h2>{{ heading }}</h2>
+
+<form action="{{ form_action }}" method="{{ form_method }}">
+    <label for="body">Comentario</label><br>
+    <textarea id="body" name="body" rows="3" required>{{ comment.body }}</textarea><br><br>
+    <button type="submit">{{ submit_label }}</button>
+</form>
+
+<p><a href="/reviews/{{ comment.review_id }}">Volver a la reseña</a></p>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Favoritos{% endblock %}
+
+{% block content %}
+<h2>Propiedades favoritas</h2>
+
+{% if favorites %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Ciudad</th>
+                <th>País</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prop in favorites %}
+            <tr>
+                <td>{{ prop.id }}</td>
+                <td><a href="/properties/{{ prop.id }}">{{ prop.title }}</a></td>
+                <td>{{ prop.city }}</td>
+                <td>{{ prop.country }}</td>
+                <td>
+                    <form action="/favorites/{{ prop.id }}/delete" method="post" style="display:inline;">
+                        <button type="submit">Quitar</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No has guardado propiedades como favoritas.</p>
+{% endif %}
+
+<p><a href="/properties">Volver a propiedades</a></p>
+{% endblock %}

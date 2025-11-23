@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Propiedad {{ property.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ property.title }}</h2>
+<p><strong>Ciudad:</strong> {{ property.city }}</p>
+<p><strong>País:</strong> {{ property.country }}</p>
+
+<div style="margin: 1rem 0;">
+    <a class="button" href="/properties/{{ property.id }}/edit">Editar</a>
+    <form action="/properties/{{ property.id }}/delete" method="post" style="display:inline;">
+        <button type="submit" onclick="return confirm('Eliminar propiedad?');">Eliminar</button>
+    </form>
+    {% if is_favorite %}
+        <form action="/favorites/{{ property.id }}/delete" method="post" style="display:inline;">
+            <button type="submit">Quitar de favoritos</button>
+        </form>
+    {% else %}
+        <form action="/favorites/{{ property.id }}" method="post" style="display:inline;">
+            <button type="submit">Guardar en favoritos</button>
+        </form>
+    {% endif %}
+</div>
+
+<h3>Reseñas</h3>
+{% if reviews %}
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <strong><a href="/reviews/{{ review.id }}">{{ review.title }}</a></strong>
+                (Rating: {{ review.rating }})
+                <div>
+                    <a href="/reviews/{{ review.id }}/edit">Editar</a>
+                    <form action="/reviews/{{ review.id }}/delete" method="post" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Eliminar reseña?');">Eliminar</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay reseñas para esta propiedad.</p>
+{% endif %}
+
+<h3>Agregar reseña</h3>
+<form action="/properties/{{ property.id }}/reviews/new" method="post">
+    <label for="title">Título</label><br>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="body">Contenido</label><br>
+    <textarea id="body" name="body" rows="4" required></textarea><br><br>
+
+    <label for="rating">Rating (1-5)</label><br>
+    <input type="number" id="rating" name="rating" min="1" max="5" required><br><br>
+
+    <button type="submit">Crear reseña</button>
+</form>
+
+<p><a href="/properties">Volver al listado</a></p>
+{% endblock %}

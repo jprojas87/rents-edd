@@ -61,3 +61,20 @@ footer {
     color: #9ca3af;
     font-size: 0.85rem;
 }
+
+.button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.button.secondary {
+    background: #4b5563;
+}
+
+.button:hover {
+    background: #1d4ed8;
+}

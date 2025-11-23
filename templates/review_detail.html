@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Reseña {{ review.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ review.title }}</h2>
+<p><strong>Rating:</strong> {{ review.rating }}</p>
+<p>{{ review.body }}</p>
+
+{% if property %}
+<p>Propiedad: <a href="/properties/{{ property.id }}">{{ property.title }}</a></p>
+{% endif %}
+
+<div style="margin: 1rem 0;">
+    <a class="button" href="/reviews/{{ review.id }}/edit">Editar</a>
+    <form action="/reviews/{{ review.id }}/delete" method="post" style="display:inline;">
+        <button type="submit" onclick="return confirm('Eliminar reseña?');">Eliminar</button>
+    </form>
+</div>
+
+<h3>Comentarios</h3>
+{% if comments %}
+    <ul>
+    {% for comment in comments %}
+        <li>
+            {{ comment.body }}
+            <div>
+                <a href="/comments/{{ comment.id }}/edit">Editar</a>
+                <form action="/comments/{{ comment.id }}/delete" method="post" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Eliminar comentario?');">Eliminar</button>
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay comentarios todavía.</p>
+{% endif %}
+
+<h3>Agregar comentario</h3>
+<form action="/reviews/{{ review.id }}/comments/new" method="post">
+    <label for="body">Comentario</label><br>
+    <textarea id="body" name="body" rows="3" required></textarea><br><br>
+    <button type="submit">Publicar comentario</button>
+</form>
+
+{% if property %}
+<p><a href="/properties/{{ property.id }}">Volver a la propiedad</a></p>
+{% endif %}
+{% endblock %}

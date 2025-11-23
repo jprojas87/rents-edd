@@ -12,7 +12,7 @@ para almacenar propiedades, reseñas, comentarios y favoritos.</p>
     <ul>
         {% for prop in properties %}
             <li>
-                <strong>{{ prop.title }}</strong>
+                <strong><a href="/properties/{{ prop.id }}">{{ prop.title }}</a></strong>
                 - {{ prop.city }}, {{ prop.country }}
             </li>
         {% endfor %}
@@ -20,6 +20,11 @@ para almacenar propiedades, reseñas, comentarios y favoritos.</p>
 {% else %}
     <p>No hay propiedades registradas aún.</p>
 {% endif %}
+
+<div class="cta">
+    <a class="button" href="/properties/new">Crear propiedad</a>
+    <a class="button secondary" href="/favorites">Ver favoritos</a>
+</div>
 
 <p>Puedes interactuar con la API en <a href="/docs">/docs</a>.</p>
 {% endblock %}
