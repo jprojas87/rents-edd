@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from datastructures.SymbolTable import SymbolTable
+from datastructures.SymbolTable import ST
 from domain.review import Review
 from domain.property import Property
 from repository.property_repository import property_repository
@@ -10,12 +10,12 @@ class ReviewRepository:
     """
     Repositorio de reseñas.
     Guarda:
-    - Tabla global de reseñas por id (SymbolTable)
+    - Tabla global de reseñas por id (ST)
     - Cada propiedad tiene su propia DoubleLinkedList de reseñas.
     """
 
     def __init__(self) -> None:
-        self._table = SymbolTable()
+        self._table = ST()
         self._next_id = 1
 
     def create(self, property_obj: Property, title: str, body: str, rating: int) -> Review:
@@ -54,7 +54,7 @@ class ReviewRepository:
             # Suponemos que DoubleLinkedList tiene remove
             prop.remove_review(review)
 
-        self._table.remove(review_id)
+        self._table.delete(review_id)
         return True
 
     def list_by_property(self, property_id: int) -> List[Review]:

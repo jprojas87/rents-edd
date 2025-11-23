@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from datastructures.SymbolTable import SymbolTable
+from datastructures.SymbolTable import ST
 from datastructures.LinkedQueue import LinkedQueue
 from domain.comment import Comment
 from domain.review import Review
@@ -11,12 +11,12 @@ class CommentRepository:
     """
     Repositorio de comentarios.
 
-    - Tabla global de comentarios por id (SymbolTable)
+    - Tabla global de comentarios por id (ST)
     - Cada reseña guarda sus comentarios en una LinkedQueue.
     """
 
     def __init__(self) -> None:
-        self._table = SymbolTable()
+        self._table = ST()
         self._next_id = 1
 
     def create(self, review: Review, body: str) -> Comment:
@@ -52,7 +52,7 @@ class CommentRepository:
                     new_queue.enqueue(c)
             review.comments = new_queue
 
-        self._table.remove(comment_id)
+        self._table.delete(comment_id)
         return True
 
     def list_by_review(self, review_id: int) -> List[Comment]:

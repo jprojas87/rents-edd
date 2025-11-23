@@ -1,22 +1,22 @@
 from typing import List, Optional
 
-from datastructures.SymbolTable import SymbolTable  # Ajusta a tu implementación
+from datastructures.SymbolTable import ST
 from domain.property import Property
 
 
 class PropertyRepository:
     """
-    Repositorio de propiedades usando una tabla de símbolos manual (SymbolTable).
+    Repositorio de propiedades usando una tabla de símbolos manual (ST).
 
-    Suposiciones mínimas sobre SymbolTable:
+    Suposiciones mínimas sobre ST:
     - put(key, value)
     - get(key) -> value o None
-    - remove(key)
-    - items() -> iterable de (key, value)
+    - delete(key)
+    - keys() -> lista de claves almacenadas
     """
 
     def __init__(self) -> None:
-        self._table = SymbolTable()
+        self._table = ST()
         self._next_id = 1
 
     def create(self, title: str, country: str, city: str) -> Property:
@@ -42,11 +42,16 @@ class PropertyRepository:
         prop = self.get(property_id)
         if prop is None:
             return False
-        self._table.remove(property_id)
+        self._table.delete(property_id)
         return True
 
     def list_all(self) -> List[Property]:
-        return [value for _, value in self._table.items()]
+        properties: List[Property] = []
+        for key in self._table.keys():
+            prop = self._table.get(key)
+            if prop is not None:
+                properties.append(prop)
+        return properties
 
 
 # Instancia singleton para usar en servicios
